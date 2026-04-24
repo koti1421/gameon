@@ -1,13 +1,15 @@
 // ─── Sports ───
 export const SPORTS = [
   { name: "Basketball", slug: "basketball", icon: "🏀", category: "INDOOR" as const },
-  { name: "Pickleball", slug: "pickleball", icon: "🏓", category: "BOTH" as const },
   { name: "Soccer", slug: "soccer", icon: "⚽", category: "OUTDOOR" as const },
   { name: "Tennis", slug: "tennis", icon: "🎾", category: "BOTH" as const },
-  { name: "Flag Football", slug: "flag-football", icon: "🏈", category: "OUTDOOR" as const },
-  { name: "Softball", slug: "softball", icon: "🥎", category: "OUTDOOR" as const },
   { name: "Volleyball", slug: "volleyball", icon: "🏐", category: "BOTH" as const },
-  { name: "Running", slug: "running", icon: "🏃", category: "OUTDOOR" as const },
+  { name: "Pickleball", slug: "pickleball", icon: "🏓", category: "BOTH" as const },
+  { name: "Baseball", slug: "baseball", icon: "⚾", category: "OUTDOOR" as const },
+  { name: "Football", slug: "football", icon: "🏈", category: "OUTDOOR" as const },
+  { name: "Swimming", slug: "swimming", icon: "🏊", category: "INDOOR" as const },
+  { name: "Badminton", slug: "badminton", icon: "🏸", category: "INDOOR" as const },
+  { name: "Cricket", slug: "cricket", icon: "🏏", category: "OUTDOOR" as const },
   { name: "Badminton", slug: "badminton", icon: "🏸", category: "INDOOR" as const },
   { name: "Cricket", slug: "cricket", icon: "🏏", category: "OUTDOOR" as const },
 ] as const;
@@ -40,7 +42,8 @@ export const USER_ROLES = [
   { value: "COACH", label: "Coach" },
   { value: "VENUE_OWNER", label: "Venue Owner" },
   { value: "ACADEMY_OWNER", label: "Academy Owner" },
-  { value: "ADMIN", label: "Super Admin" },
+  { value: "ADMIN", label: "Admin" },
+  { value: "SUPER_ADMIN", label: "Super Admin" },
 ] as const;
 
 // ─── Venue Amenities ───
