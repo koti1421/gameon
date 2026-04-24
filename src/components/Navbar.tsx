@@ -9,6 +9,8 @@ const sports = [
   { name: "Softball", emoji: "🥎" },
   { name: "Volleyball", emoji: "🏐" },
   { name: "Running", emoji: "🏃" },
+  { name: "Badminton", emoji: "🏸" },
+  { name: "Cricket", emoji: "🏏" },
 ];
 
 const navLinks = [

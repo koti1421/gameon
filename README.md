@@ -8,7 +8,7 @@ Next.js 14 | TypeScript | Tailwind CSS | Prisma | Stripe | NextAuth.js
 
 ## Sports
 
-Basketball • Pickleball • Soccer • Tennis • Flag Football • Softball • Volleyball • Running
+Basketball • Pickleball • Soccer • Tennis • Flag Football • Softball • Volleyball • Running • Badminton • Cricket
 
 ## Getting Started
 

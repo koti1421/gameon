@@ -36,7 +36,7 @@ export default function Footer() {
             <h4 className="text-sm font-semibold text-gray-900">Sports</h4>
             <p className="mt-2 text-sm text-gray-600">
               Basketball • Pickleball • Soccer • Tennis • Flag Football •
-              Softball • Volleyball • Running
+              Softball • Volleyball • Running • Badminton • Cricket
             </p>
           </div>
         </div>

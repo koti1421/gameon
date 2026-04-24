@@ -11,6 +11,8 @@ const sports = [
   { name: "Softball", slug: "softball", icon: "🥎", description: "Slow-pitch and fast-pitch softball games." },
   { name: "Volleyball", slug: "volleyball", icon: "🏐", description: "Beach and indoor volleyball for all skill levels." },
   { name: "Running", slug: "running", icon: "🏃", description: "Group runs, trail runs, and running clubs." },
+  { name: "Badminton", slug: "badminton", icon: "🏸", description: "Singles and doubles badminton for all levels." },
+  { name: "Cricket", slug: "cricket", icon: "🏏", description: "Casual and competitive cricket matches and leagues." },
 ];
 
 async function main() {
