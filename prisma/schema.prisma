@@ -1,0 +1,248 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── NextAuth Models ───
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Core Models ───
+
+enum UserRole {
+  USER
+  COACH
+  VENUE_OWNER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts           Account[]
+  sessions           Session[]
+  bookings           Booking[]
+  organizedGames     PickupGame[]
+  gameParticipations PickupGameParticipant[]
+  coachProfile       Coach?
+  reviews            Review[]
+  ownedVenues        Venue[]
+}
+
+model Sport {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  icon        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  venueSports VenueSport[]
+  coachSports CoachSport[]
+  pickupGames PickupGame[]
+}
+
+model Venue {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  address      String
+  city         String
+  state        String
+  zipCode      String
+  lat          Float?
+  lng          Float?
+  pricePerHour Float
+  ownerId      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  owner       User         @relation(fields: [ownerId], references: [id])
+  sports      VenueSport[]
+  images      VenueImage[]
+  bookings    Booking[]
+  pickupGames PickupGame[]
+}
+
+model VenueSport {
+  venueId String
+  sportId String
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  sport Sport @relation(fields: [sportId], references: [id], onDelete: Cascade)
+
+  @@id([venueId, sportId])
+}
+
+model VenueImage {
+  id      String  @id @default(cuid())
+  venueId String
+  url     String
+  alt     String?
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Booking {
+  id        String        @id @default(cuid())
+  venueId   String
+  userId    String
+  startAt   DateTime
+  endAt     DateTime
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  venue   Venue    @relation(fields: [venueId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+  payment Payment?
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  bookingId             String        @unique
+  stripePaymentIntentId String        @unique
+  amount                Int
+  currency              String        @default("usd")
+  status                PaymentStatus @default(PENDING)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+}
+
+enum GameStatus {
+  OPEN
+  FULL
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model PickupGame {
+  id          String     @id @default(cuid())
+  sportId     String
+  venueId     String?
+  organizerId String
+  title       String
+  description String?
+  location    String?
+  startAt     DateTime
+  endAt       DateTime
+  maxPlayers  Int
+  status      GameStatus @default(OPEN)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  sport        Sport                  @relation(fields: [sportId], references: [id])
+  venue        Venue?                 @relation(fields: [venueId], references: [id])
+  organizer    User                   @relation(fields: [organizerId], references: [id])
+  participants PickupGameParticipant[]
+}
+
+model PickupGameParticipant {
+  gameId   String
+  userId   String
+  joinedAt DateTime @default(now())
+
+  game PickupGame @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, userId])
+}
+
+model Coach {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  bio        String?
+  hourlyRate Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sports  CoachSport[]
+  reviews Review[]
+}
+
+model CoachSport {
+  coachId String
+  sportId String
+
+  coach Coach @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  sport Sport @relation(fields: [sportId], references: [id], onDelete: Cascade)
+
+  @@id([coachId, sportId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  coachId   String
+  userId    String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  coach Coach @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([coachId, userId])
+}
