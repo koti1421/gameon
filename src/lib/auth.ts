@@ -16,9 +16,16 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signin",
   },
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+        session.user.role = token.role as "USER" | "COACH" | "VENUE_OWNER" | "ACADEMY_OWNER" | "ADMIN" | "SUPER_ADMIN";
       }
       return session;
     },
