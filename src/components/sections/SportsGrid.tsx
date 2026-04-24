@@ -1,8 +1,10 @@
 "use client";
 
 import { SPORTS } from "@/lib/constants";
-import { StaggerContainer, StaggerItem } from "@/components/ui/Animations";
-import { FadeIn } from "@/components/ui/Animations";
+import { StaggerContainer, StaggerItem, FadeIn } from "@/components/ui/Animations";
+import Link from "next/link";
+
+const playerCounts = [2340, 3120, 1890, 1456, 2780, 890, 1230, 980, 1100, 760];
 
 export function SportsGrid() {
   return (
@@ -18,13 +20,17 @@ export function SportsGrid() {
             </p>
           </div>
         </FadeIn>
-        <StaggerContainer className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-5 lg:grid-cols-10">
-          {SPORTS.map((sport) => (
+        <StaggerContainer className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5">
+          {SPORTS.map((sport, i) => (
             <StaggerItem key={sport.slug}>
-              <div className="group flex flex-col items-center gap-2 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-accent transition-all cursor-pointer dark:border-gray-700 dark:bg-gray-800 dark:hover:border-orange-400">
-                <span className="text-4xl group-hover:scale-110 transition-transform">{sport.icon}</span>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{sport.name}</span>
-              </div>
+              <Link href={`/games?sport=${sport.slug}`}>
+                <div className={`group relative flex flex-col items-center gap-3 rounded-2xl bg-gradient-to-br ${sport.color} p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden`}>
+                  <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/85 group-hover:bg-white/80 dark:group-hover:bg-gray-900/75 transition-colors duration-300" />
+                  <span className="relative text-5xl group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">{sport.icon}</span>
+                  <span className="relative text-sm font-semibold text-gray-800 dark:text-gray-200">{sport.name}</span>
+                  <span className="relative text-xs text-gray-500 dark:text-gray-400">{playerCounts[i]?.toLocaleString()} players</span>
+                </div>
+              </Link>
             </StaggerItem>
           ))}
         </StaggerContainer>

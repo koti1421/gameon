@@ -5,5 +5,84 @@
 @layer base {
   body {
     @apply bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+@layer utilities {
+  /* Gradient mesh for hero */
+  .gradient-mesh {
+    background: 
+      radial-gradient(at 27% 37%, #3b82f6 0px, transparent 50%),
+      radial-gradient(at 97% 21%, #f97316 0px, transparent 50%),
+      radial-gradient(at 52% 99%, #10b981 0px, transparent 50%),
+      radial-gradient(at 10% 29%, #8b5cf6 0px, transparent 50%),
+      radial-gradient(at 97% 96%, #f43f5e 0px, transparent 50%);
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(15deg); }
+  }
+
+  /* Shimmer effect for skeletons */
+  .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  .dark .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+    background-size: 200% 100%;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Floating animation */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Tabular nums for stats */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+  .dark .glass {
+    @apply bg-gray-900/70 border-gray-700/30;
   }
 }
