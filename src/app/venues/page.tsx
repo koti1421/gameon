@@ -1,42 +1,51 @@
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
+
 export default function VenuesPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Venues</h1>
-          <p className="mt-2 text-gray-600">
-            Find and book courts, fields, and facilities near you.
+    <div className="min-h-screen dark:bg-gray-950">
+      <div className="bg-gradient-to-r from-primary to-blue-700 py-16">
+        <Container>
+          <h1 className="text-4xl font-bold text-white">Find Venues</h1>
+          <p className="mt-2 text-lg text-blue-200">
+            Discover courts, fields, and facilities near you
           </p>
-        </div>
+        </Container>
       </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder cards */}
-        {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-          >
-            <div className="h-48 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
-              📍 Venue Photo
-            </div>
-            <h3 className="mt-4 text-lg font-semibold text-gray-900">
-              Sample Venue {i}
-            </h3>
-            <p className="mt-1 text-sm text-gray-600">
-              123 Main St, City, ST 12345
-            </p>
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-lg font-bold text-orange-600">
-                $25/hr
-              </span>
-              <button className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700">
-                Book Now
-              </button>
-            </div>
+      <Container className="py-12">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search venues..."
+              className="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            />
+            <select className="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+              <option>All Sports</option>
+            </select>
           </div>
-        ))}
-      </div>
+          <Link href="/venues/add">
+            <Button variant="accent">List Your Venue</Button>
+          </Link>
+        </div>
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            >
+              <div className="h-48 rounded-lg bg-gray-100 dark:bg-gray-700" />
+              <h3 className="mt-4 text-lg font-bold text-gray-900 dark:text-white">
+                Venue {i}
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Coming soon — connect your database to see real venues
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
     </div>
   );
 }

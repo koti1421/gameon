@@ -1,50 +1,58 @@
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
+
 export default function CoachesPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Coaches</h1>
-        <p className="mt-2 text-gray-600">
-          Find experienced coaches to help you improve your game.
-        </p>
+    <div className="min-h-screen dark:bg-gray-950">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-700 py-16">
+        <Container>
+          <h1 className="text-4xl font-bold text-white">Find Coaches</h1>
+          <p className="mt-2 text-lg text-green-100">
+            Connect with experienced coaches and improve your game
+          </p>
+        </Container>
       </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder coach cards */}
-        {[
-          { name: "Alex Johnson", sport: "🏀 Basketball", rate: 60, rating: 4.9 },
-          { name: "Sarah Chen", sport: "🎾 Tennis", rate: 55, rating: 4.8 },
-          { name: "Mike Rivera", sport: "🏓 Pickleball", rate: 45, rating: 4.7 },
-        ].map((coach, i) => (
-          <div
-            key={i}
-            className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-          >
-            <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-2xl">
-                {coach.sport.split(" ")[0]}
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {coach.name}
-                </h3>
-                <p className="text-sm text-gray-600">{coach.sport}</p>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-yellow-500">★</span>
-                <span className="text-sm font-medium">{coach.rating}</span>
-              </div>
-              <span className="text-lg font-bold text-orange-600">
-                ${coach.rate}/hr
-              </span>
-            </div>
-            <button className="mt-4 w-full rounded-lg border border-orange-600 px-4 py-2 text-sm font-medium text-orange-600 hover:bg-orange-50">
-              View Profile
-            </button>
+      <Container className="py-12">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search coaches..."
+              className="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            />
+            <select className="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+              <option>All Sports</option>
+            </select>
           </div>
-        ))}
-      </div>
+          <Link href="/coaches/apply">
+            <Button variant="accent">Become a Coach</Button>
+          </Link>
+        </div>
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-gray-100 dark:bg-gray-700" />
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                    Coach {i}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    ⭐ 4.{8 + i} · $50/hr
+                  </p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                Coming soon — connect your database to see real coaches
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
     </div>
   );
 }
